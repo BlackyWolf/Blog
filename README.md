@@ -1,2 +1,3 @@
 # Blog
-The blog located at https://blog.blackywolf.me
+
+The blog for https://blog.blackywolf.me
