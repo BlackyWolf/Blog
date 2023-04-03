@@ -12,6 +12,9 @@
 		"test:unit": "vitest",
 		"lint": "eslint ."
 	},
+	"dependencies": {
+		"@supabase/supabase-js": "^2.13.1"
+	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
