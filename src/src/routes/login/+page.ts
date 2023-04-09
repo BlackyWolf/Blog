@@ -1,10 +1,9 @@
-import { getCurrentUser } from '$lib';
 import { redirect } from '@sveltejs/kit';
 
-export const load = async () => {
-    let user = await getCurrentUser();
+export const load = async ({ parent }) => {
+    const { session } = await parent();
 
-    if (user) {
+    if (session) {
         throw redirect(307, '/manage');
     }
 };

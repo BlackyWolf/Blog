@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
-    import { Container, signOut } from '$lib';
+    import { Container, PrimaryButton } from '$lib';
     import '../app.css';
+    import type { PageData } from './$types';
+
+    export let data: PageData;
 
     async function logoutUser() {
-        const { error } = await signOut();
+        const { error } = await data.supabase.auth.signOut();
 
         if (error) {
             console.log(error);
@@ -27,11 +28,16 @@
             <li class="link">
                 <a href="/posts">Latest Posts</a>
             </li>
-            {#if $page.data.user}
+            {#if data.session}
+                <li class="link">
+                    <a href="/manage">Manage</a>
+                </li>
                 <li class="ml-auto">
-                    <button type="button" on:click={logoutUser}>
-                        {$page.data.user.email}, Signout
-                    </button>
+                    <span class="mr-4 text-sm font-semibold">{data.session.user.email}</span>
+
+                    <PrimaryButton type="button" on:click={logoutUser}>
+                        Signout
+                    </PrimaryButton>
                 </li>
             {/if}
         </ul>
