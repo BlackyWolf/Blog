@@ -2,6 +2,7 @@
     import { invalidate } from '$app/navigation';
     import { onMount } from 'svelte';
     import type { LayoutData } from './$types';
+    import { hash256, profilePictureBucket } from '$lib';
 
     export let data: LayoutData;
 
@@ -18,13 +19,37 @@
 
         return () => subscription.unsubscribe();
     });
+
+    const user = data.session?.user;
+
+    let profilePicture: string;
+
+    async function setProfilePicture() {
+        if (user?.id) {
+            profilePicture = await hash256(user.id)
+        }
+    }
+
+    setProfilePicture();
 </script>
 
-<div class="flex pt-6">
-    <nav class="flex flex-col bg-white mr-6">
-        <span>
+<div class="flex py-6 flex-grow">
+    <nav>
+        {#if user && profilePicture}
+            <div class="flex items-center pr-4 border-b border-gray-300 mb-4">
+                <img
+                    src={`${profilePictureBucket}/${profilePicture}.png`}
+                    alt={user.email}
+                    title={user.email}
+                    class="h-16 w-16 rounded-full m-4"
+                >
 
-        </span>
+                <div>
+                    <h6 class="text-sm font-semibold">{user.email}</h6>
+                    <span class="text-xs">{user.id}</span>
+                </div>
+            </div>
+        {/if}
 
         <a href="/manage">Dashboard</a>
         <a href="/manage/posts">Posts</a>
@@ -39,7 +64,7 @@
 
 <style>
     nav {
-        @apply p-2 min-w-[20%] rounded-md shadow-md;
+        @apply p-2 pb-4 min-w-[20%] rounded-md shadow-md flex flex-col bg-white mr-6;
     }
 
     nav a {

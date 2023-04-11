@@ -1,8 +1,10 @@
 <script lang="ts">
-    import { Header, SaveButton } from '$lib';
+    import { Header, SaveButton, profilePictureBucket } from '$lib';
     import type { PageData } from './$types';
 
     export let data: PageData;
+
+    console.log(data.authors);
 </script>
 
 <Header title="Authors">
@@ -11,31 +13,25 @@
     </SaveButton>
 </Header>
 
-<table class="min-w-full divide-y divide-gray-300 overflow-hidden">
-    <thead>
-        <tr>
-            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
-            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Penname</th>
-            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
-        </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-200 bg-white">
-        {#each data.authors as author}
-            <tr>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {#if author.profile_pic}
-                        <img src={author.profile_pic} title={author.penname} alt={author.penname}>
-                    {:else}
-                        <i>o</i>
-                    {/if}
-                </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {author.penname}
-                </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    <button>Edit</button>
-                </td>
-            </tr>
-        {/each}
-    </tbody>
-</table>
+<div class="grid grid-cols-2 gap-4 items-center">
+    {#each data.authors as author}
+        <div class="flex items-center">
+            <img
+                src={`${profilePictureBucket}/${author.profile_pic}`}
+                title={author.penname}
+                alt={author.penname}
+                class="h-10 w-10 rounded-full block ml-4 my-4"
+            >
+
+            <div class="ml-4">
+                <h6 class="font-semibold">{author.penname}</h6>
+
+                <span class="text-sm">{author.user_id}</span>
+            </div>
+        </div>
+
+        <div class="ml-auto">
+            <button>Edit</button>
+        </div>
+    {/each}
+</div>
