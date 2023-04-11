@@ -8,6 +8,7 @@
     export let placeholder = '';
     export let required: boolean | undefined = false;
     export let rows: number | undefined = 6;
+    export let value: any = '';
 
     const classes = joinCss(
         'rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset',
@@ -30,5 +31,6 @@
         {placeholder}
         {required}
         {rows}
+        {value}
     ></textarea>
 </div>
