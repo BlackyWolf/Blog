@@ -9,6 +9,8 @@ import * as $admin_layout from "./routes/admin/_layout.tsx";
 import * as $admin_posts_new from "./routes/admin/posts/new.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $index from "./routes/index.tsx";
+import * as $posts_slug_ from "./routes/posts/[slug].tsx";
+import * as $posts_index from "./routes/posts/index.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -21,6 +23,8 @@ const manifest = {
         "./routes/admin/posts/new.tsx": $admin_posts_new,
         "./routes/api/joke.ts": $api_joke,
         "./routes/index.tsx": $index,
+        "./routes/posts/[slug].tsx": $posts_slug_,
+        "./routes/posts/index.tsx": $posts_index,
     },
     islands: {
         "./islands/Counter.tsx": $Counter,

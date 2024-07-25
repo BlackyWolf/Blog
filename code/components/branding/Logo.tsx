@@ -7,7 +7,7 @@ interface Properties {
 export const Logo = ({ class: _class }: Properties) => {
     const css = joinCss(
         _class,
-        "font-indie-flower text-primary-purple"
+        "font-indie-flower text-primary-500"
     );
 
     return (

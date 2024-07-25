@@ -1,4 +1,3 @@
-// import "@fontsource/indie-flower";
 import { type PageProps } from "$fresh/server.ts";
 
 export default function App({ Component }: PageProps) {
@@ -11,7 +10,7 @@ export default function App({ Component }: PageProps) {
                     content="width=device-width, initial-scale=1.0"
                 />
 
-                <title>blackywolf-blog</title>
+                <title>BlackyWolf Blog</title>
 
                 <link rel="stylesheet" href="/styles.css" />
 
