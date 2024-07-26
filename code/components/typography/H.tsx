@@ -11,12 +11,12 @@ interface Properties {
 
 function getTextSize(size: Size) {
     switch (size) {
-        case "1": return "text-5xl";
-        case "2": return "text-4xl";
-        case "3": return "text-3xl";
-        case "4": return "text-2xl";
-        case "5": return "text-xl";
-        case "6": return "text-lg";
+        case "1": return "text-5xl mb-8";
+        case "2": return "text-4xl mb-6";
+        case "3": return "text-3xl mb-4";
+        case "4": return "text-2xl mb-2";
+        case "5": return "text-xl mb-2";
+        case "6": return "text-lg mb-1";
     }
 }
 

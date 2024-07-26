@@ -8,6 +8,7 @@ import * as $_layout from "./routes/_layout.tsx";
 import * as $admin_layout from "./routes/admin/_layout.tsx";
 import * as $admin_posts_new from "./routes/admin/posts/new.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
+import * as $authors_slug_ from "./routes/authors/[slug].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $posts_slug_ from "./routes/posts/[slug].tsx";
 import * as $posts_index from "./routes/posts/index.tsx";
@@ -22,6 +23,7 @@ const manifest = {
         "./routes/admin/_layout.tsx": $admin_layout,
         "./routes/admin/posts/new.tsx": $admin_posts_new,
         "./routes/api/joke.ts": $api_joke,
+        "./routes/authors/[slug].tsx": $authors_slug_,
         "./routes/index.tsx": $index,
         "./routes/posts/[slug].tsx": $posts_slug_,
         "./routes/posts/index.tsx": $posts_index,
