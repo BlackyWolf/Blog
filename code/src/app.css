@@ -1,1 +1,69 @@
-@import 'tailwindcss';
+/**
+ * Tailwind CSS
+ */
+@import "tailwindcss";
+
+@theme {
+    --color-primary: oklch(41.33% 0.078 303.17);
+
+    --font-inter: InterVariable, sans-serif;
+    --font-indie-flower: "Indie Flower", cursive;
+}
+
+@layer base {
+    /* Headings */
+    h1 {
+        @apply text-4xl font-semibold mb-4;
+    }
+
+    h2 {
+        @apply text-3xl font-semibold mb-4;
+    }
+
+    h3 {
+        @apply text-2xl font-semibold mb-4;
+    }
+
+    h4 {
+        @apply text-xl font-semibold mb-2;
+    }
+
+    h5 {
+        @apply text-lg font-semibold mb-2;
+    }
+
+    h6 {
+        @apply text-base font-semibold mb-2;
+    }
+
+    /* Paragraphs */
+    p {
+        margin-block: 1rem;
+        margin-block: 1lh;
+    }
+
+    /* Forms */
+    label {
+        @apply block text-sm/6 font-medium text-gray-900;
+    }
+}
+
+@layer utilities {
+    .m-block-0 {
+        margin-block: 0;
+    }
+}
+
+/**
+ * General
+ */
+
+html,
+body,
+#app {
+    @apply flex flex-col grow min-h-full font-inter;
+}
+
+/* body {
+    @apply bg-slate-50;
+} */
