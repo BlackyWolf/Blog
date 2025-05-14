@@ -1,4 +1,4 @@
-import { db } from "../db";
+import { db } from "../data/db";
 
 export async function getUserByUsername(username: string) {
     return await db.query.users.findFirst({

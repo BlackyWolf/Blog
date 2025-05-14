@@ -1,4 +1,4 @@
-import { authenticateUser, setAuthCookie } from "$lib/server";
+import { authenticateUser, createUserSession, setAuthCookie } from "$lib/server";
 import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
@@ -25,6 +25,7 @@ export const actions: Actions = {
             ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days
             : new Date(Date.now() + 1000 * 60 * 60); // 1 hour
 
+        createUserSession(user.id, event.getClientAddress(), event.locals.userAgent, expiresAt);
         setAuthCookie(event, user, expiresAt);
 
         throw redirect(302, "/");

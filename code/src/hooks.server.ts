@@ -1,14 +1,17 @@
 import { seedDatabase } from "$lib/server/data/db";
 import { sequence } from "@sveltejs/kit/hooks";
-import { authHooks } from "./middleware";
+import { preloadStaticAssets, redirectFromLogin, setUser, setUserAgent } from "./middleware";
+import { validateAdminUser } from "./middleware/admin.hooks";
 
 await seedDatabase();
 
 export const handle = sequence(
-    authHooks,
-    async ({ event, resolve }) => {
-        return await resolve(event, {
-            preload: ({ type }) => type === "font"  || type === "js" || type === "css" || type === "asset"
-        });
-    }
+    // Setting the user agent should be first
+    setUserAgent,
+    // Static assets should come before authn and authz so that they are not blocked by auth middleware
+    preloadStaticAssets,
+    // Auth middleware should be before anything else that depends on it
+    setUser,
+    redirectFromLogin,
+    validateAdminUser,
 );
