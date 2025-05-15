@@ -1,6 +1,8 @@
+import { and, eq } from "drizzle-orm";
 import { db } from "../data/db";
 import { sessions } from "../data/schema";
 import { AuthError } from "./errors";
+import { decodeId } from "../data";
 
 export async function createUserSession(
     userId: number,
@@ -8,11 +10,22 @@ export async function createUserSession(
     userAgent: string,
     expiresAt: Date
 ) {
-    const existingSessions = await db.query.sessions.findMany({
+    const currentSession = await db.query.sessions.findFirst({
         where: (sessions, { and, eq, gt }) => and(
             eq(sessions.userId, userId),
             eq(sessions.ipAddress, ipAddress),
             eq(sessions.userAgent, userAgent),
+            gt(sessions.expiresAt, new Date())
+        ),
+    });
+
+    if (currentSession) {
+        return currentSession.id;
+    }
+
+    const existingSessions = await db.query.sessions.findMany({
+        where: (sessions, { and, eq, gt }) => and(
+            eq(sessions.userId, userId),
             gt(sessions.expiresAt, new Date())
         ),
     });
@@ -25,11 +38,54 @@ export async function createUserSession(
     }
 
     if (existingSessions.length === 0) {
-        await db.insert(sessions).values({
-            userId,
-            ipAddress,
-            userAgent,
-            expiresAt,
-        });
+        const insertedId = await db.insert(sessions)
+            .values({
+                userId,
+                ipAddress,
+                userAgent,
+                expiresAt,
+            })
+            .returning({
+                insertedId: sessions.id,
+            });
+
+        return insertedId[0].insertedId;
     }
+}
+
+export async function deleteUserSession(
+    userId: number,
+    ipAddress: string,
+    userAgent: string
+) {
+    await db.delete(sessions).where(and(
+        eq(sessions.userId, userId),
+        eq(sessions.ipAddress, ipAddress),
+        eq(sessions.userAgent, userAgent)
+    ));
+}
+
+export async function deleteUserSessions(id: number) {
+    await db.delete(sessions).where(eq(sessions.userId, id));
+}
+
+export async function expireUserSession(
+    sessionId: string,
+) {
+    const ids = decodeId(sessionId);
+
+    await db.update(sessions)
+        .set({
+            expiresAt: new Date(),
+        })
+        .where(and(
+            eq(sessions.id, ids[0]),
+        ));
+}
+
+export async function getUserSessions(id: number) {
+    return await db.query.sessions.findMany({
+        where: (sessions, { eq }) => eq(sessions.userId, id),
+        orderBy: (sessions, { desc }) => desc(sessions.expiresAt),
+    });
 }

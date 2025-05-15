@@ -6,9 +6,7 @@
 <div class="flex items-center justify-between">
     <h2>Posts</h2>
 
-    <a href="/admin/posts/new">
-        <Button color="lime" size="md">New Post</Button>
-    </a>
+    <Button color="lime" size="md" href="/admin/posts/new">New Post</Button>
 </div>
 
 <ul>

@@ -7,7 +7,10 @@
     interface Properties extends HTMLButtonAttributes {
         color?: Color;
         full?: boolean;
+        href?: string;
+        rel?: string;
         size?: ButtonSize;
+        target?: string;
     }
 
     const {
@@ -15,10 +18,17 @@
         class: _class,
         color = "blue",
         full,
+        href,
+        rel,
         size = "lg",
+        target,
         type = "button",
         ...rest
     }: Properties = $props();
+
+    if (!href && (rel || target)) {
+        throw new Error("The 'rel' and 'target' attributes are only valid when 'href' is set.");
+    }
 
     function getButtonSize() {
         switch (size) {
@@ -60,15 +70,34 @@
     }
 </script>
 
-<button
-    class={[
-        "rounded-md font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-        getButtonSize(),
-        getButtonColor(),
-        full ? "w-full" : "",
-        _class,
-    ]}
-    {type}
->
-    {@render children?.()}
-</button>
+{#if href}
+    <a {href} {rel} {target}>
+        <button
+            class={[
+                "rounded-md font-semibold shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2",
+                getButtonSize(),
+                getButtonColor(),
+                full ? "w-full" : "",
+                _class,
+            ]}
+            {type}
+            {...rest}
+        >
+            {@render children?.()}
+        </button>
+    </a>
+{:else}
+    <button
+        class={[
+            "rounded-md font-semibold shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2",
+            getButtonSize(),
+            getButtonColor(),
+            full ? "w-full" : "",
+            _class,
+        ]}
+        {type}
+        {...rest}
+    >
+        {@render children?.()}
+    </button>
+{/if}

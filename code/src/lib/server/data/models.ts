@@ -10,3 +10,7 @@ export type NewPost = typeof posts.$inferInsert;
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+export type SessionUser = Omit<User, "id" | "password"> & {
+    id: string;
+    sessionId: string;
+};

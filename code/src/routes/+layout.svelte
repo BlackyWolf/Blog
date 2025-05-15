@@ -1,10 +1,24 @@
 <script lang="ts">
+    import { beforeNavigate } from "$app/navigation";
+    import { page } from "$app/state";
     import { Button } from "$lib";
     import "@fontsource/indie-flower";
     import "@fontsource-variable/inter";
     import "../app.css";
 
     let { children, data } = $props();
+
+    let logoutReturnUrl = $state(
+        page.url.pathname !== "/logout"
+            ? page.url.pathname
+            : "/"
+    )
+
+    beforeNavigate((context) => {
+        if (context.to?.url.pathname !== "/logout") {
+            logoutReturnUrl = context.to?.url.pathname || "/";
+        }
+    });
 </script>
 
 <div class="flex flex-col grow container mx-auto max-w-4xl gap-y-8">
@@ -22,14 +36,12 @@
         <nav class="ml-auto flex gap-6 items-center">
             {#if data?.user}
                 {#if data.user.isAdmin}
-                    <a href="/admin" class="font-medium">
-                        <Button color="indigo" size="xs">
-                            Admin
-                        </Button>
-                    </a>
+                    <Button color="indigo" size="xs" href="/admin">
+                        Admin
+                    </Button>
                 {/if}
 
-                <a href="/logout" class="font-medium">
+                <a href={`/logout?returnUrl=${logoutReturnUrl}`} class="font-medium">
                     Logout
                 </a>
             {/if}

@@ -9,12 +9,9 @@ export type AuthErrorType =
 ;
 
 export class AuthError extends Error {
-    public type: AuthErrorType;
-
-    constructor(type: AuthErrorType, message: string) {
+    constructor(public type: AuthErrorType, message: string) {
         super(message);
 
         this.name = "AuthCookieError";
-        this.type = type;
     }
 }
