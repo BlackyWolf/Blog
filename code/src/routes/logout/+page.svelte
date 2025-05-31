@@ -9,7 +9,7 @@
 
     <p>Are you sure you want to logout?</p>
 
-    <form class="flex items-center gap-6" method="POST" action="?/login">
+    <form class="flex items-center gap-6" method="POST" action="?/logout">
         <Button type="submit" color="red">Yes, log me out</Button>
         <Button type="button" color="slate" href={data.returnUrl}>Cancel</Button>
     </form>
