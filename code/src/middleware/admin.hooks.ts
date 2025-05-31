@@ -1,7 +1,7 @@
 import { error, type Handle } from "@sveltejs/kit";
 
 export const validateAdminUser: Handle = async ({ event, resolve }) => {
-    if (!event.url.pathname.startsWith("/admin")) {
+    if (!event.url.pathname.toLowerCase().startsWith("/admin")) {
         return await resolve(event);
     }
 
