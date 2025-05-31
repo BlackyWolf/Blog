@@ -1,5 +1,5 @@
 import { dev } from "$app/environment";
-import { AuthError, decrypt, encrypt, type SessionUser, type User } from "$lib/server";
+import { AuthError, decrypt, encrypt, type SessionUser} from "$lib/server";
 import type { RequestEvent } from "@sveltejs/kit";
 
 const AUTH_COOKIE_NAME = "bwsk.auth.session";
@@ -18,7 +18,7 @@ export function deleteAuthCookie(event: RequestEvent) {
     }
 }
 
-export function getUserFromAuthCookie(event: RequestEvent) {
+export function getUserFromAuthCookie(event: RequestEvent): SessionUser | undefined {
     try {
         const authCookie = event.cookies.get(AUTH_COOKIE_NAME);
 
@@ -28,7 +28,7 @@ export function getUserFromAuthCookie(event: RequestEvent) {
 
         if (!decryptedCookie) return;
 
-        const user = JSON.parse(decryptedCookie) as User;
+        const user = JSON.parse(decryptedCookie) as SessionUser;
 
         if (!user) return;
 
